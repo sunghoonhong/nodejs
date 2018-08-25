@@ -13,7 +13,9 @@ else {
     http.createServer((req, res) => {
         res.write('<h1>Hello</h1>');
         res.end('<p>cluster</p>');
-        console.log(`${process.pid} run`);
+        setTimeout(() => {
+            process.exit(1);
+        }, 1000);
     }).listen(8080);
 
     console.log(`${process.pid} run`);
