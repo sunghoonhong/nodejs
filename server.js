@@ -2,8 +2,12 @@ const http = require('http');
 const fs = require('fs');
 
 const server = http.createServer((req, res) => {
-    res.write('<h1>Hello Node!</h1>');
-    res.end('<p>Hello Server!</p>');
+    fs.readFile('./hello.html', (err, data) => {
+        if(err) {
+            throw err;
+        }
+        res.end(data);
+    });
 });
 server.listen(8080);
 server.on('listening', () => {
