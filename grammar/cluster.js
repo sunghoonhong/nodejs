@@ -7,6 +7,7 @@ if(cluster.isMaster) {
     for(let i=0; i<numCPUs; i+=1) cluster.fork();
     cluster.on('exit', (worker, code, signal) => {
         console.log(`${worker.process.pid} exit`);
+        cluster.fork();
     });
 }
 else {
