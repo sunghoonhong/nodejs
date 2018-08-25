@@ -12,6 +12,8 @@ const parseCookies = (cookie = '') =>
         return acc;
     }, {});
 
+const session = {};
+
 const server = http.createServer((req, res) => {
     const cookies = parseCookies(req.headers.cookie);
     
@@ -20,16 +22,19 @@ const server = http.createServer((req, res) => {
         const {name} = qs.parse(query);
         const expires = new Date();
         expires.setMinutes(expires.getMinutes()+5);
+        
+        const randomInt = +new Date();
+        session[randomInt] = { name, expires, };
         res.writeHead(302, {
             Location: '/',
-            'Set-Cookie': `name=${encodeURIComponent(name)};\
+            'Set-Cookie': `session=${randomInt};\
             Expires=${expires.toGMTString()}; HttpOnly; Path=/`,
         });
         res.end();
     }
-    else if(cookies.name) {
+    else if(cookies.session && session[cookies.session].expires > new Date()) {
         res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
-        res.end(`Hello ${cookies.name}!`);
+        res.end(`Hello ${session[cookies.session].name}!`);
     }
     else {
         fs.readFile('./base.html', (err, data) => {
