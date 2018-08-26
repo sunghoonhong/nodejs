@@ -1,0 +1,63 @@
+doctype html
+html
+    head
+        meta(charset='utf-8')
+        title sequelize server
+        style.
+            table {
+                border: 1px solid black;
+                border-collapse: collapse;
+            }
+
+            table th, table td {
+                border: 1px solid black;
+            }
+    body
+        div
+            form#user-form
+                fieldset
+                    legend create user
+                    div
+                        input#username(type="text" placeholder="name")
+                    div
+                        input#age(type="number" placeholder="age")
+                    div
+                        input#married(type="checkbox")
+                        label(for="married") married
+                    button(type="submit") create
+        br
+        table#user-list
+            thead
+                tr
+                    th id
+                    th name
+                    th age
+                    th married
+            tbody
+                for user in users
+                    tr
+                        td= user.id
+                        td= user.name
+                        td= user.age
+                        td= user.married? 'yes' : 'no'
+        br
+        div
+            form#comment-form
+                fieldset
+                    legend create comment
+                    div
+                        input#userid(type="text" placeholder="user id")
+                    div
+                        input#comment(type="text" placeholder="comment")
+                    button(type="submit") create
+        br
+        table#comment-list
+            thead
+                tr
+                    th id
+                    th commenter
+                    th comment
+                    th update
+                    th destroy
+                tbody
+        script(src='/javascripts/sequelize.js')
